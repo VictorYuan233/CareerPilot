@@ -4,7 +4,8 @@ from datetime import datetime, timezone
 
 import pytest
 
-from careerpilot.replay import ReplayPreparation, ReplayVerification
+from careerpilot.orchestrator import Orchestrator
+from careerpilot.replay import ReplayDiscovery, ReplayPreparation, ReplayVerification
 from careerpilot.schemas import (
     ApplicationPackage,
     CandidateEvidence,
@@ -166,6 +167,16 @@ def test_two_sensitive_boolean_ats_answers_have_distinct_evidence_bindings():
     assert "Yes" not in package.resume_draft
     assert "Yes" not in package.cover_letter
     assert result.decision == "pass"
+
+    workflow = Orchestrator(
+        ReplayDiscovery([selected_job]), ReplayPreparation(), ReplayVerification()
+    )
+    session = workflow.start(
+        "Prepare an application for this job.", candidate_evidence, jobs=[selected_job]
+    )
+    assert session.status == "awaiting_approval"
+    assert session.review and session.review.decision == "pass"
+    assert session.package and session.package.ats_answers == package.ats_answers
 
 
 def test_unanswered_requirement_stays_none_and_requests_human_review():
