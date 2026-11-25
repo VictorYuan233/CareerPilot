@@ -1,0 +1,45 @@
+{
+  "notice": "Synthetic replay fixture for offline demonstration. This is not a real candidate profile.",
+  "evidence": [
+    {
+      "evidence_id": "CP-EV-001",
+      "source_id": "SYNTH-COURSE-001",
+      "text": "Completed Python programming coursework covering data structures and basic scripting.",
+      "provenance": "Synthetic university coursework record created for the CareerPilot replay demo.",
+      "confirmed": true,
+      "sensitive": false,
+      "fact_key": "skill.python",
+      "boolean_value": true
+    },
+    {
+      "evidence_id": "CP-EV-002",
+      "source_id": "SYNTH-PROJECT-001",
+      "text": "Completed a machine learning course project comparing supervised classification models.",
+      "provenance": "Synthetic course-project summary created for the CareerPilot replay demo.",
+      "confirmed": true,
+      "sensitive": false,
+      "fact_key": "skill.ml",
+      "boolean_value": true
+    },
+    {
+      "evidence_id": "CP-EV-003",
+      "source_id": "SYNTH-COURSE-002",
+      "text": "Used SQL in a database fundamentals course.",
+      "provenance": "Synthetic university coursework record created for the CareerPilot replay demo.",
+      "confirmed": true,
+      "sensitive": false,
+      "fact_key": "skill.sql",
+      "boolean_value": true
+    },
+    {
+      "evidence_id": "CP-EV-004",
+      "source_id": "SYNTH-USER-CONFIRMATION-001",
+      "text": "Work authorisation for Singapore has not been confirmed.",
+      "provenance": "Placeholder for an explicit human clarification. No eligibility status is assumed.",
+      "confirmed": false,
+      "sensitive": true,
+      "boolean_value": null,
+      "fact_key": "work.sg"
+    }
+  ]
+}

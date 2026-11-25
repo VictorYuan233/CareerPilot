@@ -1,0 +1,105 @@
+{
+  "notice": "Synthetic replay fixture. These are invented roles and URLs, not live vacancies.",
+  "jobs": [
+    {
+      "job_id": "CP-JOB-001",
+      "title": "AI Engineering Intern",
+      "company": "Northstar Labs (synthetic)",
+      "location": "Singapore",
+      "source_url": "https://example.org/careerpilot/CP-JOB-001",
+      "description": "Synthetic role requiring Python and machine learning fundamentals. Work authorisation for Singapore is a condition of employment. No prior full-time experience requirement is specified.",
+      "fetched_at": "2026-11-25T00:00:00Z",
+      "status": "open",
+      "requirements": [
+        {
+          "fact_key": "skill.python",
+          "label": "Python fundamentals"
+        },
+        {
+          "fact_key": "skill.ml",
+          "label": "Machine learning fundamentals"
+        },
+        {
+          "fact_key": "work.sg",
+          "label": "Authorisation to work in Singapore",
+          "ats_question": "Are you authorised to work in Singapore?"
+        }
+      ],
+      "requirements_complete": true,
+      "role_aliases": [
+        "AI engineering internship",
+        "Artificial intelligence engineering intern"
+      ]
+    },
+    {
+      "job_id": "CP-JOB-002",
+      "title": "Senior Machine Learning Engineer",
+      "company": "Harbour Systems (synthetic)",
+      "location": "Singapore",
+      "source_url": "https://example.org/careerpilot/CP-JOB-002",
+      "description": "Synthetic role requiring Python, machine learning and at least three years of professional experience. Work authorisation for Singapore is a condition of employment.",
+      "fetched_at": "2026-11-25T00:00:00Z",
+      "status": "open",
+      "requirements": [
+        {
+          "fact_key": "skill.python",
+          "label": "Python fundamentals"
+        },
+        {
+          "fact_key": "skill.ml",
+          "label": "Machine learning fundamentals"
+        },
+        {
+          "fact_key": "experience.professional_years",
+          "label": "Three years of professional experience",
+          "operator": "gte",
+          "expected": 3,
+          "category": "experience_years"
+        },
+        {
+          "fact_key": "work.sg",
+          "label": "Authorisation to work in Singapore",
+          "ats_question": "Are you authorised to work in Singapore?"
+        }
+      ],
+      "requirements_complete": true,
+      "role_aliases": [
+        "Machine learning engineer"
+      ]
+    },
+    {
+      "job_id": "CP-JOB-003",
+      "title": "Data Science Research Intern",
+      "company": "Meridian Research (synthetic)",
+      "location": "Singapore",
+      "source_url": "https://example.org/careerpilot/CP-JOB-003",
+      "description": "Synthetic internship using Python, SQL and introductory machine learning. Work authorisation for Singapore must be clarified before an application package can be approved.",
+      "fetched_at": "2026-11-25T00:00:00Z",
+      "status": "open",
+      "requirements": [
+        {
+          "fact_key": "skill.python",
+          "label": "Python fundamentals"
+        },
+        {
+          "fact_key": "skill.sql",
+          "label": "SQL fundamentals"
+        },
+        {
+          "fact_key": "skill.ml",
+          "label": "Machine learning fundamentals"
+        },
+        {
+          "fact_key": "work.sg",
+          "label": "Authorisation to work in Singapore",
+          "ats_question": "Are you authorised to work in Singapore?"
+        }
+      ],
+      "requirements_complete": true,
+      "role_aliases": [
+        "Data science internship",
+        "Data scientist intern"
+      ]
+    }
+  ]
+}
