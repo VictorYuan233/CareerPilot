@@ -32,6 +32,10 @@ An `aspiration` explains why the candidate wants this role or what they hope to 
 - It must not describe past experience or skills, and must not contain numbers.
 - Use aspirations only in the cover letter, at most one per paragraph.
 
+## Topics you never write about
+
+Do not mention work authorisation, visas, citizenship, residency, nationality, age, health or salary in any sentence, even when the job description asks for them. These are eligibility questions: the system answers them separately from confirmed records, and the candidate reviews those answers. Write about skills, studies and projects only.
+
 ## Style
 
 - Plain, specific English. No superlatives such as "expert", "world-class" or "passionate leader".
