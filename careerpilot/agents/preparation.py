@@ -108,6 +108,21 @@ _PAST_EXPERIENCE = re.compile(
     r"i used|i managed|experience (?:in|with)|years? of)\b",
     re.IGNORECASE,
 )
+# Eligibility facts are answered only through ATS answers from confirmed records.
+_ELIGIBILITY = re.compile(
+    r"\b(authori[sz](?:ed|ation)|work pass|employment pass|visa|citizen(?:ship)?|"
+    r"permanent resident|residency|nationality|salary|date of birth)\b",
+    re.IGNORECASE,
+)
+# A named technology must appear in the evidence the sentence cites. This catches a
+# supported clause joined to an unsupported one ("... models and Kubernetes").
+_SKILL_TERMS = re.compile(
+    r"\b(python|java|javascript|typescript|c\+\+|c#|golang|rust|scala|sql|nosql|"
+    r"machine learning|deep learning|pytorch|tensorflow|keras|scikit-learn|pandas|numpy|"
+    r"docker|kubernetes|aws|azure|gcp|google cloud|spark|hadoop|airflow|git|linux|"
+    r"react|node\.js|django|flask|fastapi|llms?|nlp|computer vision|tableau|power bi)\b",
+    re.IGNORECASE,
+)
 _STOP = {
     "the", "and", "for", "with", "from", "that", "this", "into", "using", "used",
     "role", "candidate", "completed", "course", "experience", "have", "has", "was",
@@ -136,6 +151,8 @@ def check_sentence(
     text = normalise(sentence.text)
     if not text or "\n" in sentence.text or "[" in text or "]" in text:
         return "malformed_text"
+    if _ELIGIBILITY.search(text):
+        return "eligibility_topic"
     if sentence.kind == "aspiration":
         if sentence.evidence_ids:
             return "aspiration_cites_evidence"
@@ -155,6 +172,9 @@ def check_sentence(
     )
     if not set(_NUMBER.findall(text)) <= set(_NUMBER.findall(source_text)):
         return "unsupported_number"
+    named = {term.casefold() for term in _SKILL_TERMS.findall(text)}
+    if named - {term.casefold() for term in _SKILL_TERMS.findall(source_text)}:
+        return "unsupported_skill"
     if not _content_words(text) & _content_words(source_text):
         return "evidence_not_related"
     return None
@@ -386,20 +406,35 @@ class LivePreparation:
             raise PreparationError("Preparation failed. Check the course model configuration.") from error
 
     async def _run(self, instruction: str, message: str) -> DraftOutput:
+        from google.adk.models.google_llm import Gemini
+        from google.genai import types
+
+        no_retry = types.HttpRetryOptions(attempts=1)
+        gemini = None if self._model is not None else Gemini(
+            model=self.config.model, retry_options=no_retry,
+        )
+        try:
+            return await self._run_agent(instruction, message, gemini or self._model, no_retry)
+        finally:
+            if gemini is not None:
+                # Close the HTTP client inside this event loop; otherwise it is closed
+                # after asyncio.run() ends and prints "Event loop is closed".
+                try:
+                    await gemini.api_client.aio.aclose()
+                except Exception:
+                    pass
+
+    async def _run_agent(self, instruction: str, message: str, model: Any, no_retry: Any) -> DraftOutput:
         from google.adk.agents import LlmAgent
         from google.adk.agents.run_config import RunConfig
         from google.adk.apps import App
-        from google.adk.models.google_llm import Gemini
         from google.adk.runners import Runner
         from google.adk.sessions import InMemorySessionService
         from google.genai import types
 
-        no_retry = types.HttpRetryOptions(attempts=1)
         agent = LlmAgent(
             name="application_preparation",
-            model=self._model if self._model is not None else Gemini(
-                model=self.config.model, retry_options=no_retry,
-            ),
+            model=model,
             instruction=instruction,
             output_schema=DraftOutput,
             disallow_transfer_to_parent=True,
